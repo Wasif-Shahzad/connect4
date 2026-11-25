@@ -68,13 +68,7 @@ breakLoop:
     exit
 main ENDP 
 
-;-------------------------------------------------------------------------|
-;                      PrintLayout Proc                                   |
-;           Just Prints the Column Numbers for the Grid                   |
-;     Recieves: Nothing, the X and Y coordinate values are hardcoded      |
-;                      Returns: Nothing                                   |
-;                                                                         |
-;-------------------------------------------------------------------------|
+; Draw the title, column numbers, baseline, and opening turn message.
 
 printLayout PROC
     mov DH, 2
@@ -128,14 +122,7 @@ setColor PROC
 ret
 setColor endp
 
-;------------------------------------------------------------------|
-;                       PrintArrow Proc                            |
-;              Prints the arrow according to the "column"          |
-;                  value selected by the player                    |
-;                  Recieves: Column variable                       |
-; Returns: Nothing, just prints the Arrow at the given Coordinates |
-;                                                                  |
-;------------------------------------------------------------------|
+; Show the current player's arrow above the selected column.
 printArrow PROC     ;column value passed through variable "column"
     mov DH, 7
     mov DL, 20
@@ -162,20 +149,7 @@ printArrow PROC     ;column value passed through variable "column"
     ret
 printArrow ENDP
 
-;-----------------------------------------------------------|
-;                   PrintGrid Proc                          |
-;         Prints the Grid for the 2 users to play on        |
-;           Prints O in Red if the value of the             |
-;             element is 1 indicating player 1              |
-;                                                           |
-;          Prints O in Yellow if the value of the           |
-;             element is 2 indicating player 2              |
-;                                                           |
-;             Prints nothing if the value if -1             |
-;                                                           |
-;   Recieves: Nothing is passed, it uses Grid array Offset  |
-;                 Returns: Nothing                          |
-;-----------------------------------------------------------|
+; Draw red discs for player 1 and yellow discs for player 2. Leave empty cells blank.
 printGrid PROC      ;no value passed, only use grid 2d-array offset
     mov DL, 19
     mov DH, 8
@@ -227,15 +201,7 @@ printGrid PROC      ;no value passed, only use grid 2d-array offset
     ret
 printGrid ENDP
 
-;----------------------------------------------|
-;          markPosition Proc                   |
-;   marks the grid with 1 for player 1 or      |
-;         with 2 for player 2                  |
-;  Recieves: Nothing, just uses the 'column'   | 
-;       value and the 'player' value           |
-;     Returns: 1 in eax for valid pos          | 
-;             -1 for invalid                   |
-;----------------------------------------------|
+; Fill the lowest empty cell in the selected column. EAX is 1 on success or -1 if the column is full.
 markPosition PROC           ;uses value in column and player variable
     mov ecx, 6              ;return 1 if valid, otherwise -1
     mov esi, OFFSET grid
